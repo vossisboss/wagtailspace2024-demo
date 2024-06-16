@@ -46,6 +46,10 @@ class BlogIndexPage(Page):
         blogpages = self.get_children().live().order_by("-first_published_at")
         context["blogpages"] = blogpages
         return context
+    
+    subpage_types = ['blog.BlogPage']
+    
+    
 
 
 class BlogPageTag(TaggedItemBase):
@@ -86,6 +90,8 @@ class BlogPage(Page):
         FieldPanel("body"),
         InlinePanel("gallery_images", label="Gallery images"),
     ]
+
+    parent_page_types = ['blog.BlogIndexPage']
 
 
 class BlogPageGalleryImage(Orderable):

@@ -1,28 +1,20 @@
-# Wagtail template: Your first Wagtail site
+# Code Examples for What Editors Really Want
 
-A Wagtail project starter template – with the solution to Wagtail’s official [Your first Wagtail site](https://docs.wagtail.org/en/stable/getting_started/tutorial.html) tutorial.
+Here are some code examples to show you some practical ways for giving your editors and writers a better Wagtail experience.
 
-## Starting a new project
+## Set parent pages and subpages whenever possible
 
-```bash
-wagtail start mysite --template=https://github.com/thibaudcolas/wagtail-tutorial-template/archive/main.zip
+If there is only one child page type for a particular parent page, then you can reduce the number of clicks that writers and editors have to make by adding some simple settings. In this example blog project `BlogIndexPage` will only ever have `BlogPage` as a child. So we can add the following line to our `BlogPage` model:
+
+```
+parent_page_types = ['blog.BlogIndexPage']
+
+```
+And the following line can be added to the `BlogIndexPage` model:
+
 ```
 
-## Full starting instructions
+subpage_types = ['blog.BlogPage']
 
-For macOS / Linux:
-
-```bash
-python -m venv mysite/env
-source mysite/env/bin/activate
-pip install wagtail
-
-wagtail start mysite --template=https://github.com/thibaudcolas/wagtail-tutorial-template/archive/main.zip
-
-cd mysite
-pip install -r requirements.txt
-
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
 ```
+With those settings in place, a new `BlogPage` will be created automatically whenever an editor adds a child page to their `BlogIndexPage`.
