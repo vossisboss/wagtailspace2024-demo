@@ -11,3 +11,5 @@ class HomePage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("body"),
     ]
+
+    page_description = "This page type is for the home page of the site. There should only be one home page."

@@ -48,6 +48,7 @@ class BlogIndexPage(Page):
         return context
     
     subpage_types = ['blog.BlogPage']
+    page_description = "Use this page type for listing blog posts."
     
     
 
@@ -108,6 +109,8 @@ class BlogPageGalleryImage(Orderable):
         FieldPanel("caption"),
     ]
 
+    page_description = "Use this page type for individual blog posts."
+
 
 class BlogTagIndexPage(Page):
     def get_context(self, request):
@@ -120,3 +123,5 @@ class BlogTagIndexPage(Page):
         context = super().get_context(request)
         context["blogpages"] = blogpages
         return context
+    
+    page_description = "This page type is for listing blog posts associated with a particular tag. There should only be one page with this type."
