@@ -73,3 +73,5 @@ HelpPanel("Choose at least 1-3 images for each blog post."),
         FieldPanel("caption"),
     ]
  ```
+
+ You could use validation to check the dimensions of the images as well but that would probably be too heavy-handed for most editors. If they are in a rush and trying to publish, having a slightly fuzzy image is considered an acceptable sacrifice to meet a deadline.
