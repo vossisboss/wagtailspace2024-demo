@@ -7,7 +7,7 @@ from taggit.models import TaggedItemBase
 
 from wagtail.models import Page, Orderable
 from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, HelpPanel
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
@@ -46,6 +46,11 @@ class BlogIndexPage(Page):
         blogpages = self.get_children().live().order_by("-first_published_at")
         context["blogpages"] = blogpages
         return context
+    
+    subpage_types = ['blog.BlogPage']
+    page_description = "Use this page type for listing blog posts."
+    
+    
 
 
 class BlogPageTag(TaggedItemBase):
@@ -87,6 +92,15 @@ class BlogPage(Page):
         InlinePanel("gallery_images", label="Gallery images"),
     ]
 
+    promote_panels = (
+        [HelpPanel("NOTE: If you do not fill out a title tag, the page title will be used by default.")]
+        + Page.promote_panels
+    )
+
+    parent_page_types = ['blog.BlogIndexPage']
+
+    
+
 
 class BlogPageGalleryImage(Orderable):
     page = ParentalKey(
@@ -98,9 +112,12 @@ class BlogPageGalleryImage(Orderable):
     caption = models.CharField(blank=True, max_length=250)
 
     panels = [
-        FieldPanel("image"),
+        HelpPanel("Choose at least 1-3 images for each blog post."),
+        FieldPanel("image", help_text="Image size should be at least 1024 x 768 pixels."),
         FieldPanel("caption"),
     ]
+
+    page_description = "Use this page type for individual blog posts."
 
 
 class BlogTagIndexPage(Page):
@@ -114,3 +131,5 @@ class BlogTagIndexPage(Page):
         context = super().get_context(request)
         context["blogpages"] = blogpages
         return context
+    
+    page_description = "This page type is for listing blog posts associated with a particular tag. There should only be one page with this type."
