@@ -92,7 +92,14 @@ class BlogPage(Page):
         InlinePanel("gallery_images", label="Gallery images"),
     ]
 
+    promote_panels = (
+        [HelpPanel("NOTE: If you do not fill out a title tag, the page title will be used by default.")]
+        + Page.promote_panels
+    )
+
     parent_page_types = ['blog.BlogIndexPage']
+
+    
 
 
 class BlogPageGalleryImage(Orderable):
