@@ -75,3 +75,32 @@ HelpPanel("Choose at least 1-3 images for each blog post."),
  ```
 
  You could use validation to check the dimensions of the images as well but that would probably be too heavy-handed for most editors. If they are in a rush and trying to publish, having a slightly fuzzy image is considered an acceptable sacrifice to meet a deadline.
+
+## Use labels or duplicate text to let editors know what's going on in their templates
+
+If you are adding failsafes or backups to your templates, then you should communicate it to your editors in some way. For example, we include this failsafe line for the search description on Wagtail.org:
+
+```
+content="{% if page.social_text %}{{ page.social_text }}{% elif page.listing_intro %}{{ page.listing_intro }}{% elif page.introduction %}{{ page.introduction|truncatechars:200 }}{% endif %}"
+```
+
+And in this sample project, there is a small backup line that you can finde here:
+
+```
+{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+```
+
+Editors aren't going to know right away that this code is there. Some will figure it out by trial and error, but why do that when we can let them know what's going on with a label?
+
+We're going to adjust the promote panels code with a label so that our editors are aware that the title will be use by default.
+
+```
+promote_panels = (
+        [HelpPanel("NOTE: If you do not fill out a title tag, the page title will be used by default.")]
+        + Page.promote_panels
+    )
+```
+
+## Custom Validation
+
+We have another talk at Wagtail Space US on custom validation by Scott Cranfill that I will link to here. But I wanted to say that custom validation is another great way to help editors help themselves and remember to include key parts of their content.
